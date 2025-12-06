@@ -20,9 +20,9 @@ export default function About({ book }) {
       <Card>
         <Card.Body>
           <p>
-            Hi! I'm Prashant Khadka Magar, a web development student at Seneca
-            College. I'm learning React, Next.js, and building cool web
-            applications.
+            Hi! I&apos;m Prashant Khadka Magar, a web development student at
+            Seneca College. I&apos;m learning React, Next.js, and building cool
+            web applications.
           </p>
           <p>One of my favorite books is {book.title}.</p>
         </Card.Body>

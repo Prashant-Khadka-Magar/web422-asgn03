@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { isAuthenticated } from "@/lib/authenticate";
 import { useAtom } from "jotai";
 import { favouritesAtom } from "@/store";
@@ -13,23 +13,9 @@ export default function RouteGuard(props) {
 
   const [, setFavouritesList] = useAtom(favouritesAtom);
 
-  const updateAtom = useCallback(async () => {
+  async function updateAtom() {
     setFavouritesList(await getFavourites());
-  }, [setFavouritesList]);
-
-  const authCheck = useCallback(
-    (url) => {
-      const path = url.split("?")[0];
-
-      if (!isAuthenticated() && !PUBLIC_PATHS.includes(path)) {
-        setAuthorized(false);
-        router.push("/login");
-      } else {
-        setAuthorized(true);
-      }
-    },
-    [router]
-  );
+  }
 
   useEffect(() => {
     updateAtom();
@@ -41,7 +27,18 @@ export default function RouteGuard(props) {
     return () => {
       router.events.off("routeChangeComplete", authCheck);
     };
-  }, [authCheck, router.events, router.pathname, updateAtom]);
+  }, []);
+
+  function authCheck(url) {
+    const path = url.split("?")[0];
+
+    if (!isAuthenticated() && !PUBLIC_PATHS.includes(path)) {
+      setAuthorized(false);
+      router.push("/login");
+    } else {
+      setAuthorized(true);
+    }
+  }
 
   return <>{authorized && props.children}</>;
 }

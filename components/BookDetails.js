@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useAtom } from "jotai";
 import { favouritesAtom } from "@/store";
@@ -26,21 +25,15 @@ export default function BookDetails({ book, workId, showFavouriteBtn = true }) {
       <Container>
         <Row>
           <Col lg="4">
-            <Image
+            <img
               onError={(event) => {
-                event.currentTarget.onerror = null;
-                event.currentTarget.src =
+                event.target.onerror = null;
+                event.target.src =
                   "https://placehold.co/400x600?text=Cover+Not+Available";
               }}
               className="img-fluid w-100"
-              src={
-                book?.covers?.[0]
-                  ? `https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`
-                  : "https://placehold.co/400x600?text=Cover+Not+Available"
-              }
+              src={`https://covers.openlibrary.org/b/id/${book?.covers?.[0]}-L.jpg`}
               alt="Cover Image"
-              width={400}
-              height={600}
             />
             <br />
             <br />
